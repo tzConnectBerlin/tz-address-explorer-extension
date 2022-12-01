@@ -1,11 +1,24 @@
-export {}
+import type { PlasmoContentScript } from "plasmo"
 
-const contract = /KT1[1-9A-HJ-NP-Za-km-z]{33}/
-const wallet = /tz[1-3][1-9A-HJ-NP-Za-km-z]{33}/
+export const config: PlasmoContentScript = {
+  matches: ["https://*/*"]
+}
 
-var elems = document.querySelectorAll("*"),
-  res = Array.from(elems).find(
-    (v) => v.textContent.match(contract) || v.textContent.match(wallet)
-  )
+const isTezos = (string) => {
+  const contract = /KT1[1-9A-HJ-NP-Za-km-z]{33}/
+  const wallet = /tz[1-3][1-9A-HJ-NP-Za-km-z]{33}/
+  return string.match(contract) || string.match(wallet)
+}
 
-console.log(res ? "found!" : "not found")
+document.addEventListener("selectionchange", function () {
+  var selection = window.getSelection().toString().trim()
+  if (isTezos(selection)) {
+    console.log("HOLA")
+    chrome.runtime.sendMessage({
+        request: 'updateContextMenu',
+        selection: selection
+    });
+  } else {
+    chrome.contextMenus.removeAll();
+  }
+})
