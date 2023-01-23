@@ -2,6 +2,8 @@ This is a [Plasmo extension](https://docs.plasmo.com/) project bootstrapped with
 
 The goal of the extension it's pretty simple, when a Tezos wallet address or a contract is selected on any web page, the user can right click on it and use a link to Tzkt.io to get more information.
 
+![assets/screenshot.gif](assets/screenshot.gif)
+
 ## Getting Started
 
 First, run the development server:
